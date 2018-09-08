@@ -226,7 +226,7 @@ $UIA_oUIAutomation.RawViewWalker($UIA_pTW)
 	_WinAPI_RedrawWindow(_WinAPI_GetDesktopWindow(), 0, 0, $RDW_INVALIDATE + $RDW_ALLCHILDREN) ; Clears Red outline graphics.
 
 ;~	Just some information in the edit box that we have a mouseposition (not neccesarily an element found)
-	GUICtrlSetData($edtCtrlInfo, "Mouse position is retrieved " & $xMouse & "-" & $yMouse & @CRLF)
+	;GUICtrlSetData($edtCtrlInfo, "Mouse position is retrieved " & $xMouse & "-" & $yMouse & @CRLF)
 
 ;~ Check for an IAccessible element
 ;~ https://www.autoitscript.com/forum/topic/153520-iuiautomation-ms-framework-automate-chrome-ff-ie/?do=findComment&comment=1156373
@@ -237,8 +237,8 @@ $UIA_oUIAutomation.RawViewWalker($UIA_pTW)
 		Local $oIA_Object, $hWnd, $sName = ""
 				$oIA_Object = ObjCreateInterface( $pObject, $sIID_IAccessible, $dtagIAccessible )
 				$oIA_Object.get_accName( $CHILDID_SELF, $sName )
-				GUICtrlSetData($edtCtrlInfo, "There is also an IAccessible interface for " & $sName &  @CRLF)
-				GUICtrlSetData($edtCtrlInfo, "    https://www.autoitscript.com/forum/topic/153520-iuiautomation-ms-framework-automate-chrome-ff-ie/?do=findComment&comment=1156373 " &  @CRLF)
+				;GUICtrlSetData($edtCtrlInfo, "There is also an IAccessible interface for " & $sName &  @CRLF)
+				;GUICtrlSetData($edtCtrlInfo, "    https://www.autoitscript.com/forum/topic/153520-iuiautomation-ms-framework-automate-chrome-ff-ie/?do=findComment&comment=1156373 " &  @CRLF)
 
 
 		$vt = BitAND( DllStructGetData( $tVarChild, 1, 1 ), 0xFFFF )
@@ -248,8 +248,8 @@ $UIA_oUIAutomation.RawViewWalker($UIA_pTW)
 				AccessibleObjectFromWindow( $hWnd, $OBJID_CLIENT, $tIID_IAccessible, $pObject )
 				$oIA_Object = ObjCreateInterface( $pObject, $sIID_IAccessible, $dtagIAccessible )
 				$oIA_Object.get_accName( $CHILDID_SELF, $sName )
-				GUICtrlSetData($edtCtrlInfo, "There is also an IAccessible interface for " & $sName &  @CRLF)
-				GUICtrlSetData($edtCtrlInfo, "    https://www.autoitscript.com/forum/topic/153520-iuiautomation-ms-framework-automate-chrome-ff-ie/?do=findComment&comment=1156373 " &  @CRLF)
+				;GUICtrlSetData($edtCtrlInfo, "There is also an IAccessible interface for " & $sName &  @CRLF)
+				;GUICtrlSetData($edtCtrlInfo, "    https://www.autoitscript.com/forum/topic/153520-iuiautomation-ms-framework-automate-chrome-ff-ie/?do=findComment&comment=1156373 " &  @CRLF)
 			EndIf
 		EndIf
 	EndIf
@@ -258,6 +258,7 @@ $UIA_oUIAutomation.RawViewWalker($UIA_pTW)
 If IsObj($oUIElement) Then
 	local $title=_UIA_getPropertyValue($oUIElement,$UIA_NamePropertyId)
 	local $class=_UIA_getPropertyValue($oUIElement,$uia_classnamepropertyid)
+	local $id = _UIA_getPropertyValue($oUIElement,$UIA_AutomationIdPropertyId)
 	local $controltypeName=_UIA_getControlName(_UIA_getPropertyValue($oUIElement,$UIA_ControlTypePropertyId))
 	local $controltypeId=_UIA_getPropertyValue($oUIElement,$UIA_ControlTypePropertyId)
 	local $controlIDString=$title
@@ -272,13 +273,13 @@ If IsObj($oUIElement) Then
 	$controlIDString=_UIA_NiceString($controlIDString)
 
 ;~  ConsoleWrite("At least we have an element "  & "[" & _UIA_getPropertyValue($oUIElement, $UIA_NamePropertyId) & "][" & _UIA_getPropertyValue($oUIElement, $UIA_ClassNamePropertyId) & "]" & @CRLF)
-	GUICtrlSetData($edtCtrlInfo, "At least we have an element "  & "title: [" & $title & "] class: [" & $class & "]" & @CRLF & @CRLF ,1)
+	GUICtrlSetData($edtCtrlInfo, "*** Basic Properties of Control ***" & @CRLF & "Title: [" & $title & "] Class: [" & $class & "] Id: ["& $id & "]" & @CRLF & @CRLF ,1)
 
 ;~	Construct the basic information we are interested in
-	$text1="Title is: <" &  $title &  ">" & @TAB _
-			& "Class   := <" & $class &  ">" & @TAB _
-			& "controltype:= " 	& "<" &  $controltypeName &  ">" & @TAB  _
-			& ",<" &  $controltypeId &  ">" & @TAB & ", (" &  hex($controltypeId )&  ")" & @TAB & $controlRect  & @CRLF
+	;$text1="Title is: <" &  $title &  ">" & @TAB _
+	;		& "Class   := <" & $class &  ">" & @TAB _
+	;		& "controltype:= " 	& "<" &  $controltypeName &  ">" & @TAB  _
+	;		& ",<" &  $controltypeId &  ">" & @TAB & ", (" &  hex($controltypeId )&  ")" & @TAB & $controlRect  & @CRLF
 
 if $nativeWindow <> 0 Then
 ;~ Maintainable syntax
@@ -327,9 +328,9 @@ EndIf
 
 			$pText1=$pText1 & $I & ": Title is: <" &  $ptitle &  ">" & @TAB _
 					& "Class   := <" & $pclass &  ">" & @TAB _
-					& "controltype:= " & "<" &  $pcontroltypeName &  ">" & @TAB  _
-					& ",<" &  $PcontroltypeId &  ">" & @TAB & ", (" &  hex($PcontroltypeId) &  ")" & @TAB &  $pcontrolRect  & @CRLF
-			$ptext1=$ptext1  & $pdefaultExpression &   $dQuote & @TAB & @CRLF
+					& "controltype:= " & "<" &  $pcontroltypeName &  ">" & @CRLF
+					;& ",<" &  $PcontroltypeId &  ">" & @TAB & ", (" &  hex($PcontroltypeId) &  ")" & @TAB &  $pcontrolRect  & @CRLF
+			;$ptext1=$ptext1  & $pdefaultExpression &   $dQuote & @TAB & @CRLF
 
 ;~ Maintainable syntax
 			if $pVisible="true" then
@@ -360,35 +361,34 @@ EndIf
 			endif
 	Next
 
-    $text1=$text1 & $ptext1 & @CRLF & @CRLF
+    $text1=$text1 & $ptext1 & @CRLF
 
 ;output Maintainable code section
 ;~ Maintainable syntax
 
-	$text1=$text1 & ";~ *** Standard code maintainable ***" & @CRLF
-	$text1=$text1 & "#include ""UIAWrappers.au3""" & @CRLF
-	$text1=$text1 & "AutoItSetOption(""MustDeclareVars"", 1)" & @CRLF & @CRLF
-	$text1=$text1 & $pcodeMain1_1 & @CRLF
-	$text1=$text1 & $codeMain1_1 & @CRLF
-	$text1=$text1 & ";~ Actions split away from logical/technical definition above can come from configfiles " & @CRLF & @CRLF
+	;$text1=$text1 & ";~ *** Standard code maintainable ***" & @CRLF
+	;$text1=$text1 & "#include ""UIAWrappers.au3""" & @CRLF
+	;$text1=$text1 & "AutoItSetOption(""MustDeclareVars"", 1)" & @CRLF & @CRLF
+	;$text1=$text1 & $pcodeMain1_1 & @CRLF
+	;$text1=$text1 & $codeMain1_1 & @CRLF
+	;$text1=$text1 & ";~ Actions split away from logical/technical definition above can come from configfiles " & @CRLF & @CRLF
 
-	$text1=$text1 & $pcodeMain1_2 & @CRLF
-	$text1=$text1 & $codeMain1_2 & @CRLF & @CRLF
+	;$text1=$text1 & $pcodeMain1_2 & @CRLF
+	;$text1=$text1 & $codeMain1_2 & @CRLF & @CRLF
 
 ;output flexible code section
-	$text1=$text1 & ";~ *** Standard code Flexible***" & @CRLF
-	$text1=$text1 & "#include ""UIAWrappers.au3""" & @CRLF
-	$text1=$text1 & "AutoItSetOption(""MustDeclareVars"", 1)" & @CRLF & @CRLF
+	;$text1=$text1 & ";~ *** Standard code Flexible***" & @CRLF
+	;$text1=$text1 & "#include ""UIAWrappers.au3""" & @CRLF
+	;$text1=$text1 & "AutoItSetOption(""MustDeclareVars"", 1)" & @CRLF & @CRLF
 
-	$text1=$text1 & $pCodeFlex1
-	$text1=$text1 & $codeFlex1 & @CRLF & @CRLF
-
+	;$text1=$text1 & $pCodeFlex1
+	;$text1=$text1 & $codeFlex1 & @CRLF & @CRLF
 	$text1=$text1 & "*** Detailed properties of the highlighted element ***"
 	$text1= $text1 & @CRLF & _UIA_getAllPropertyValues($oUIElement)
 
 
 
-	GUICtrlSetData($edtCtrlInfo, "Having the following values for all properties: " & @crlf & $text1 & @CRLF, 1)
+	GUICtrlSetData($edtCtrlInfo, $text1 & @CRLF, 1)
 
 	_GUICtrlEdit_LineScroll($edtCtrlInfo, 0, 0 - _GUICtrlEdit_GetLineCount($edtCtrlInfo))
 
