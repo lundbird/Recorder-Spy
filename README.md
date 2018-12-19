@@ -1,4 +1,7 @@
 # Recorder-Spy
+
+REQUIRES AUTOIT INSTALLATION.
+
 To use, Launch RecorderSpy.exe and inspect elements with ctrl-W. Use ctrl-R to begin recording, ctrl-W to record a click, and ctrl-E to end recording.  
 
 The tool generates recordedActions.py and recordedActions.robot which uses the autogui pacakge to click the selected elements.  
